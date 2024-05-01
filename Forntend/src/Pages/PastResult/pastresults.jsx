@@ -143,7 +143,7 @@ const Pastresult = () => {
       console.log(selectedDate);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000 /getMAERange",
+        "http://127.0.0.1:8000/getMAERange",
         `FROM=${formattedDate}&TO=${formattedDate}`,
         {
           headers: {

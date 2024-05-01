@@ -55,7 +55,7 @@ async def load_config() -> None:
     await azure_scheme.openid_config.load_config()
 
 
-@app.get("/", dependencies=[Security(azure_scheme)])
+@app.get("/")
 async def root():
     return {"message": "Hello World"}
 

@@ -789,11 +789,11 @@ async def load_config() -> None:
     """
     await azure_scheme.openid_config.load_config()
     
-@app.get("/hellow", dependencies=[Security(azure_scheme)])
+@app.get("/hellow")
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/getMAE/{n}", dependencies=[Security(azure_scheme)])
+@app.get("/getMAE/{n}")
 async def get_mae(request: Request, n: int):
     ip = request.client.host
     print(f"IP={ip}")
@@ -826,7 +826,7 @@ async def get_mae(request: Request, n: int):
         )
 
 
-@app.get("/getDiffData/{DATE}", dependencies=[Security(azure_scheme)])
+@app.get("/getDiffData/{DATE}")
 async def get_diff_data(
     request: Request,
     DATE: str,
@@ -856,7 +856,7 @@ async def get_diff_data(
         )
     
     
-@app.get("/getUploadDetails/{n}", dependencies=[Security(azure_scheme)])
+@app.get("/getUploadDetails/{n}")
 async def get_logs(
     request: Request,
     n: int,
@@ -887,7 +887,7 @@ async def get_logs(
         )
         
         
-@app.get("/getDayType/{D}", dependencies=[Security(azure_scheme)])
+@app.get("/getDayType/{D}")
 async def get_Day_Type(request: Request,D:str):
     #  Day_Type = datetime.datetime.strptime(daytype, "%Y-%m-%d")
     try:
@@ -913,7 +913,7 @@ async def get_Day_Type(request: Request,D:str):
         return {"error": str(e)}
 
 
-@app.post("/getAvgData", dependencies=[Security(azure_scheme)])
+@app.post("/getAvgData")
 async def getAvgData(
     request: Request,
     n:int= Form(...),
@@ -963,7 +963,7 @@ async def getAvgData(
         )
         
         
-@app.post("/UploadDifferences", dependencies=[Security(azure_scheme)])
+@app.post("/UploadDifferences")
 async def upload_difference(
     request: Request,
     FILE: UploadFile = File(...),
@@ -1021,7 +1021,7 @@ async def upload_difference(
         )
         
    
-@app.post("/getLoadHeatMap", dependencies=[Security(azure_scheme)])
+@app.post("/getLoadHeatMap")
 async def get_weather_heatmap(request: Request, YEAR: str = Form(...)):
     ip = request.client.host
     now = datetime.datetime.now() + datetime.timedelta(hours=5, minutes=30)
@@ -1049,7 +1049,7 @@ async def get_weather_heatmap(request: Request, YEAR: str = Form(...)):
         )
 
 
-@app.post("/getWeatherHeatMap", dependencies=[Security(azure_scheme)])
+@app.post("/getWeatherHeatMap")
 async def get_weather_heatmap(request: Request, YEAR: str = Form(...)):
     ip = request.client.host
     now = datetime.datetime.now() + datetime.timedelta(hours=5, minutes=30)
@@ -1078,7 +1078,7 @@ async def get_weather_heatmap(request: Request, YEAR: str = Form(...)):
         )
 
 
-@app.post("/getMAERange", dependencies=[Security(azure_scheme)])
+@app.post("/getMAERange")
 async def get_mae_range(
     request: Request,
     FROM: str = Form(...),
@@ -1125,7 +1125,7 @@ async def get_mae_range(
         
 ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
 
-@app.post("/uploadLoadData", dependencies=[Security(azure_scheme)])
+@app.post("/uploadLoadData")
 async def insert_load_data(
     request: Request,
     FILE: UploadFile = File(...),
@@ -1255,7 +1255,7 @@ async def insert_load_data(
 #         )
         
 
-@app.post("/uploadWeatherData", dependencies=[Security(azure_scheme)])
+@app.post("/uploadWeatherData")
 async def insert_weather_data(
     request: Request,
     FILE: UploadFile = File(...),
@@ -1389,7 +1389,7 @@ async def insert_weather_data(
 #             # headers={"errorCode": 400, "success": False},
 #         )
 
-@app.post("/getDateDaytype", dependencies=[Security(azure_scheme)])
+@app.post("/getDateDaytype")
 async def get_date_daytype(
     request: Request ,
     DATE: str=Form(...),
@@ -1516,7 +1516,7 @@ async def predict_load(
         )
          
          
-@app.post("/predictLoad7", dependencies=[Security(azure_scheme)])
+@app.post("/predictLoad7")
 async def predict_load7(
     request: Request,
     DATE: str = Form(...),
