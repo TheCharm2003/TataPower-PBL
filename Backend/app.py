@@ -260,59 +260,59 @@ def prepare_weather_dataset(df):
             X_weather.extend(features)
     return np.array(X_weather)
 
-def prepare_load_dataset(date, df, TempPredictions, RHPredictions, special_day):
-    # Convert date string to datetime object
-    dateto = datetime.datetime.strptime(date, "%Y-%m-%d")
-    dateto_str = dateto.strftime("%Y-%m-%d")
-
-    datefrom = (dateto - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-
-    # Fetch load data for the specified date range
-    resultLoad, LoadData, cLoadData = getLoadData(datefrom, dateto_str)
-    
-    # If there are load data available for today
-    if cLoadData > 0:
-        # Extract load data from the first day of the three-day window
-        date_minus_two_days = (dateto - datetime.timedelta(days=4)).date()
-        # Filter rows where datetime date matches the date_minus_two_days
-        first_day_load_data_index = df.index[df['datetime'].dt.date == date_minus_two_days]
-
-        # Check if any rows match the filter condition
-        if not first_day_load_data_index.empty:
-            # Update the corresponding blocks in first_day_load_data with the values from LoadData
-            df.loc[first_day_load_data_index[:cLoadData], 'wdLoad'] = LoadData['wdLoad'].values[:cLoadData]
-
-    # Prepare input features for the load prediction model
+def prepare_load_dataset(df,TempPredictions,RHPredictions,special_day):
     X_load = []
     for j in range(96):
         # Extract features from previous days (96 readings for each day)
         for k in range(3):
-            features = df.iloc[j + (k * 96)][['wdLoad', 'temp', 'rh', 'day_type', 'day', 'block', 'hour', 'week_month', 'week_year', 'month']].values.flatten()
+            features = df.iloc[j+(k*96)][['wdLoad', 'temp', 'rh', 'day_type', 'day', 'block', 'hour', 'week_month', 'week_year', 'month']].values.flatten()
             X_load.extend(features)
         X_load.append(RHPredictions[0][j])
         X_load.append(TempPredictions[0][j])
-        
     X_load = np.array(X_load)
-    
-    # Reshape the input array to match the original shape (96, 32)
-    X_load = X_load.reshape(96, 32)
-
-    # Update 'day' values based on the special day type
     if special_day == 'Holiday':
+        # Reshape the input array to match the original shape (96, 32)
+        X_load = X_load.reshape(96, 32)
+
+        # Indices for 'day' feature in the reshaped array
         day_indices = [4, 14, 24]
+
+        # New values for 'day'
         new_day_values = [2, 3, 4]
-        # Update 'day' values
-        for i, day_indexx in enumerate(day_indices):
-            X_load[:, day_indexx] = new_day_values[i]
-    elif special_day == 'Medium Load Day':
-        day_indices = [4, 14, 24]
-        new_day_values = [1, 2, 3]
+
         # Update 'day' values
         for i, day_indexx in enumerate(day_indices):
             X_load[:, day_indexx] = new_day_values[i]
             
-    return X_load
+    elif special_day == 'Medium Load Day':
+        # Reshape the input array to match the original shape (96, 32)
+        X_load = X_load.reshape(96, 32)
 
+        # Indices for 'day' feature in the reshaped array
+        day_indices = [4, 14, 24]
+
+        # New values for 'day'
+        new_day_values = [1, 2, 3]
+
+        # Update 'day' values
+        for i, day_indexx in enumerate(day_indices):
+            X_load[:, day_indexx] = new_day_values[i]
+            
+    # elif special_day == 'Day after Festival':
+    #     # Reshape the input array to match the original shape (96, 32)
+    #     X_load = X_load.reshape(96, 32)
+
+    #     # Indices for 'day' feature in the reshaped array
+    #     day_indices = [4, 14, 24]
+
+    #     # New values for 'day'
+    #     new_day_values = [3, 4, 5]
+
+    #     # Update 'day' values
+    #     for i, day_indexx in enumerate(day_indices):
+    #         X_load[:, day_indexx] = new_day_values[i]
+    # # elif special_day == 'Weekend':
+    return X_load
 
 def prepare_load_dataset_7(df):
     X_load = []
@@ -325,6 +325,246 @@ def prepare_load_dataset_7(df):
     X_load = np.array(X_load)
     return X_load
 
+# Weekdays Addition Logic
+def weekend_function(date_to_check, LoadPredictions):
+    # print("Running weekend function...")
+    start_date = datetime.datetime(2024, 4, 15).date()
+    end_date = datetime.datetime(2024, 5, 5).date()
+
+    # Date range 
+    date_array_3 = []
+    current_date = datetime.date(2024, 4, 27)  
+    end_date_condition_3 = datetime.date(2024, 4, 28)  
+
+    while current_date <= end_date_condition_3:
+        date_array_3.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    
+    date_sunday = []
+    current_date = datetime.date(2024,4,29)
+    end_date_condition = datetime.date(2024,5,5)  
+
+    while current_date <= end_date_condition:
+        date_sunday.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    
+    # print(date_sunday)
+
+    date_array = []
+    current_date = start_date
+    end_date_condition = datetime.date(2024, 4, 22)  
+
+    while current_date <= end_date_condition:
+        date_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    
+    current_date = datetime.date(2024, 4, 29)  
+    end_date_condition_3 = datetime.date(2024, 5, 4)
+
+    while current_date <= end_date_condition:
+        date_array.append(current_date)
+        current_date += datetime.timedelta(days=1)
+    # print(":::::::::::::::::")
+    # print(date_array)
+    # print(date_array_3)
+    # print(date_sunday)
+    if date_to_check in date_array_3:
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 5
+            
+            elif j == 36:
+                LoadPredictions[0][j] += 10
+            
+            elif j == 37 or j == 74:
+                LoadPredictions[0][j] += 10
+
+            elif j == 73:
+                LoadPredictions[0][j] += 10
+
+            elif j == 75:
+                LoadPredictions[0][j] += 10
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 15
+            else:
+                LoadPredictions[0][j] += 10
+            j += 1
+
+    elif date_to_check in date_array:  
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 30
+            
+            elif j == 36:
+                LoadPredictions[0][j] += 40
+            
+            elif j == 37 or j == 74:
+                LoadPredictions[0][j] += 45
+
+            elif j == 73:
+                LoadPredictions[0][j] += 50
+
+            elif j == 75:
+                LoadPredictions[0][j] += 35
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 60
+            else:
+                LoadPredictions[0][j] += 30
+            j += 1
+
+    elif  date_to_check in date_sunday:
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 15
+            
+            elif j == 36:
+                LoadPredictions[0][j] += 20
+            elif j == 37 or j == 74:
+                LoadPredictions[0][j] += 20
+
+            elif j == 73:
+                LoadPredictions[0][j] += 20
+
+            elif j == 75:
+                LoadPredictions[0][j] += 20
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 25
+            else:
+                LoadPredictions[0][j] += 25
+            j += 1
+    return LoadPredictions[0]
+
+#Weekday Addition logic
+def weekday_function(date_to_check, LoadPredictions):
+    # print("Running weekday function...")
+    start_date = datetime.datetime(2024, 4, 15).date()
+    end_date = datetime.datetime(2024, 5, 5).date()
+
+    # First condition date_array
+    date_array_1 = []
+    current_date = datetime.date(2024, 4, 15)  
+    end_date_condition_1 = datetime.date(2024, 4,22 )  
+
+    while current_date <= end_date_condition_1:
+        date_array_1.append(current_date)
+        current_date += datetime.timedelta(days=1)
+
+    current_date = datetime.date(2024, 4, 29)  
+    end_date_condition_1 = datetime.date(2024, 4,30 )
+
+    while current_date <= end_date_condition_1:
+        date_array_1.append(current_date)
+        current_date += datetime.timedelta(days=1)
+
+    current_date = datetime.date(2024, 5, 2)  
+    end_date_condition_1 = datetime.date(2024, 5,5 )   
+
+    while current_date <= end_date_condition_1:
+        date_array_1.append(current_date)
+        current_date += datetime.timedelta(days=1)
+
+
+    # Second condition date_array
+    date_array_2 = []
+    current_date = datetime.date(2024, 4, 24)  
+    end_date_condition_3 = datetime.date(2024, 4, 28 )  
+
+    while current_date <= end_date_condition_3:
+        date_array_2.append(current_date)
+        current_date += datetime.timedelta(days=1)
+
+    date_array_3 = []
+    current_date = datetime.date(2024, 5,1)  
+    end_date_condition_3 = datetime.date(2024, 5, 1 )  
+
+    while current_date <= end_date_condition_3:
+        date_array_3.append(current_date)
+        current_date += datetime.timedelta(days=1)
+
+    # print("WeeKDAYS")
+    # print(date_array_3)
+    # print(date_array_1)
+    # print(date_array_2)
+
+    if date_to_check in date_array_2:
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 20
+            
+            elif j == 36:
+                LoadPredictions[0][j] += 30
+            
+            elif j == 37 or j == 74:
+                LoadPredictions[0][j] += 37
+
+            elif j == 73:
+                LoadPredictions[0][j] += 40
+
+            elif j == 75:
+                LoadPredictions[0][j] += 25
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 50
+            else:
+                LoadPredictions[0][j] += 25
+            j += 1
+    
+    if  date_to_check in date_array_1:
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 30
+            
+            elif j== 37 or j == 74 :
+                LoadPredictions[0][j] += 45
+
+            elif j== 36  :
+                LoadPredictions[0][j] += 40
+            
+            elif j== 73  :
+                LoadPredictions[0][j] += 50
+
+            elif j== 75 :
+                LoadPredictions[0][j] += 35
+            
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 60
+            else:
+                LoadPredictions[0][j] += 30
+            j += 1
+
+    elif  date_to_check in date_array_3:
+        j = 0 
+        while j < 96:
+            if j < 36:
+                LoadPredictions[0][j] += 30
+            
+            elif j == 36:
+                LoadPredictions[0][j] += 30
+            elif j == 37 or j == 74:
+                LoadPredictions[0][j] += 30
+
+            elif j == 73:
+                LoadPredictions[0][j] += 30
+
+            elif j == 75:
+                LoadPredictions[0][j] += 30
+            
+            elif 37 < j < 73:
+                LoadPredictions[0][j] += 40
+            else:
+                LoadPredictions[0][j] += 35
+            j += 1
+
+    return LoadPredictions[0]
 
 def getPredict2DAYSData(date, special_day):
     dateToPredict = datetime.datetime.strptime(date, "%Y-%m-%d")
@@ -389,26 +629,35 @@ def getPredict2DAYSData(date, special_day):
     TempPredictions.extend(temp_predictions)
     RHPredictions.extend(rh_predictions)
     
-    load_input = prepare_load_dataset(date,all_values_df,TempPredictions,RHPredictions,special_day)
+    load_input = prepare_load_dataset(all_values_df,TempPredictions,RHPredictions,special_day)
     # print(special_day)
     # Make prediction using Load model
     load_predictions = loadForecast.predict(load_input.reshape(1, -1))
     LoadPredictions.extend(load_predictions)
-    # Combine predictions into DataFrame
+
+    date_to_check = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+
+    if date_to_check.weekday() < 5:  # Monday to Friday (0 to 4)
+       wd_load_predictions = weekday_function(date_to_check, LoadPredictions)
+    else:  # Saturday and Sunday (5 and 6)
+       wd_load_predictions = weekend_function(date_to_check, LoadPredictions)
+
+
     ResultDf = pd.DataFrame({
         "temp": TempPredictions[0],
         "rh": RHPredictions[0],
-        "wdLoad": LoadPredictions[0]
+        "wdLoad": wd_load_predictions
+        # "wdLoad":result
     })
     # Generate datetime index for the predictions
     ResultDf["datetime"] = pd.date_range(
         dateToPredict.strftime("%Y-%m-%d"),
         (dateToPredict + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
-        freq="15min",
+        freq="15min"
     )[:96]
     ResultDf["datetime"] = ResultDf["datetime"].dt.strftime("%Y-%m-%d %H:%M:%S")
+    
     return True, ResultDf
-
 
 # def getoldPredict2DAYSData(date, specialDay):
 #     dateToPredict = datetime.datetime.strptime(date, "%Y-%m-%d")
