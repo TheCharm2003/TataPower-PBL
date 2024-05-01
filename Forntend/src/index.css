@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  background-color:
+  #F7F7F7,
+}
+.app {
+  display: flex;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 0.625rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.powerbi-embed-container {
+  height: 68.75rem;
+  width: 68.75rem;
+  margin-top: 1.25rem;
+  margin-left: 0.625rem;
+  background: transparent;
+  border-color: white; /* Set the desired height */
+  
+}
+.powerbi-embed-container .visual .date-slicer .date-slicer-head .date-slicer-range .date-slicer-datepicker {
+  box-sizing: border-box;
+  width:  500em !important;
+  height: 2.16em;
+  font-size: inherit;
+  background-color: transparent;
+  transition: border 250ms;
+  opacity: 1;
+}
+.powerbi-embed-container .individualItemContainer 
+{
+  flex: 1 1 0px;
+  -webkit-flex: 1 1 0px;
+  margin: 0.125rem;
+  outline: 0;
+  opacity: 1;
+  border-radius: 1.25rem !important;
+
+}
+iframe {
+  border: none;
+}
+
+.MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-g9m4e0-MuiInputBase-root-MuiFilledInput-root {
+  background-color: rgb(255 255 255 / 6%);
+}
+
+.MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-sizeSmall.MuiInputLabel-filled.MuiFormLabel-colorPrimary.css-1mog9k0-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgb(255 255 255 / 60%);
+  font-size: 0.813rem;
+}
+
+/* BEFORE */
+.MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-g9m4e0-MuiInputBase-root-MuiFilledInput-root::before {
+  border-color: rgb(255 255 255 / 60%);
+}
+
+label.css-11qvwfa-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgb(255 255 255 / 25%);
+}
+
+/** INPUTS MODAL **/
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.css-gjbq6i-MuiInputBase-root-MuiFilledInput-root,
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-multiline.css-1ra8cd2-MuiInputBase-root-MuiFilledInput-root {
+  background-color: rgb(216 218 219);
+}
+
+/* HOVER */
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.css-gjbq6i-MuiInputBase-root-MuiFilledInput-root:hover,
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-multiline.css-1ra8cd2-MuiInputBase-root-MuiFilledInput-root:hover {
+  background-color: rgb(247 248 249);
+}
+
+/* Mui-focused */
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.css-gjbq6i-MuiInputBase-root-MuiFilledInput-root.Mui-focused,
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-multiline.css-1ra8cd2-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
+  background-color: rgb(255, 255, 255);
+}
+
+label.css-e4w4as-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgb(20 30 48 / 61%);
+  font-size: 0.813rem;
+  font-weight: 600;
+}
+
+label.css-o943dk-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgb(20 30 48 / 61%);
+  font-weight: 600;
+}
+
+/* BEFORE */
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.css-gjbq6i-MuiInputBase-root-MuiFilledInput-root::before,
+.MuiFilledInput-root.MuiFilledInput-underline.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-multiline.css-1ra8cd2-MuiInputBase-root-MuiFilledInput-root::before {
+  border-color: rgb(20 30 48 / 61%);
+}
+
+/** BUTTONS MODAL **/
+button.css-1drhx6w-MuiButtonBase-root-MuiButton-root {
+  width: 8.125rem;
+  height: 2.5rem;
+  font-size: 0.75rem;
+  border-radius: 1.25rem;
+  background-color: #132340;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button.css-1drhx6w-MuiButtonBase-root-MuiButton-root:disabled {
+  background-color: #132340;
+  color: #fff;
+  opacity: 0.6;
+}
+
+button.css-1drhx6w-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #162b50;
+}
+
+
+
+
+@media screen and (max-width:1500px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width:1440px) {
+  html {
+    font-size: 97%;
+  }
+}
+
+@media screen and (max-width:1450px) {
+  html {
+    font-size: 95%;
+  }
+}
+
+@media screen and (max-width:1440px) {
+  html {
+    font-size: 93%;
+  }
+}
+@media screen and (max-width:1400px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media screen and (max-width:1350px) {
+  html {
+    font-size: 86%;
+  }
+}
+
+@media screen and (max-width:1300px) {
+  html {
+    font-size: 82%;
+  }
+}
+
+@media screen and (max-width:1250px) {
+  html {
+    font-size: 78%;
+  }
+}
+
+@media screen and (max-width:1200px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width:1150px) {
+  html {
+    font-size: 73%;
+  }
+}
+
+@media screen and (max-width:1100px) {
+  html {
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width:1060px) {
+  html {
+    font-size: 62%;
+  }
+}
+
+@media screen and (max-width:1050px) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width:1000px) {  
+  html {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width:950px) {
+  html {
+    font-size: 63%;
+  }
+}
+
+@media screen and (max-width:900px) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-width:850px) {
+  html {
+    font-size: 57%;
+  }
+}
+
+@media screen and (max-width:800px) {
+  html {
+    font-size: 55%;
+  }
+}
+
+@media screen and (max-width:750px) {
+  html {
+    font-size: 53%;
+  }
+}
+
+@media screen and (max-width:700px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media screen and (max-width:650px) {
+  html {
+    font-size: 47%;
+  }
+}
+
+@media screen and (max-width:600px) {
+  html {
+    font-size: 45%;
+  }
+}
